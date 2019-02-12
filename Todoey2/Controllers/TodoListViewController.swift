@@ -20,7 +20,8 @@ class TodoListViewController: UITableViewController {
         super.viewDidLoad()
         
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist"))
-//        loadItems()
+        
+        loadItems()
         
 }
 
@@ -113,17 +114,14 @@ class TodoListViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
-//     func loadItems() {
-//        if let data = try? Data(contentsOf: dataFilePath!) {
-//            let decoder = PropertyListDecoder()
-//            do {
-//            itemArray = try decoder.decode([Item].self, from: data)
-//            } catch {
-//                print("SHIT! GOT AN ERROR LOADING ITEMS FROM THE FUCKING PLIST: \(error)")
-//            }
-//
-//        }
-//    }
+     func loadItems() {
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        do {
+            itemArray = try context.fetch(request)
+        } catch {
+            print("LOADING MA FUCKING ERROR AND SHIT: \(error)")
+        }
+    }
     
 }
 
