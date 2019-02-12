@@ -54,8 +54,8 @@ class TodoListViewController: UITableViewController {
     //MARK: - Tableview Delegate Methods.
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(itemArray[indexPath.row])
-        print(itemArray.count)
+//        print(itemArray[indexPath.row])
+//        print(itemArray.count)
         
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
