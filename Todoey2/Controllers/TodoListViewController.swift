@@ -12,11 +12,15 @@ class TodoListViewController: UITableViewController {
     
     var itemArray = [Item]()
     
-    let defaults = UserDefaults.standard
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        
+        
+//        print(dataFilePath)
         
         let newItem = Item()
         newItem.title = "Find Mike"
@@ -32,9 +36,9 @@ class TodoListViewController: UITableViewController {
         
         
         
-        if let items = defaults.array(forKey: "TodoListArray") as? [Item] {
-            itemArray = items
-        }
+//        if let items = defaults.array(forKey: "TodoListArray") as? [Item] {
+//            itemArray = items
+//        }
 }
     
     
@@ -72,14 +76,7 @@ class TodoListViewController: UITableViewController {
         
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
-
-        
-//        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-//            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-//        } else { tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-//        }
-        
-        tableView.reloadData()
+        saveItems()
         
         tableView.deselectRow(at: indexPath, animated: true)
 
@@ -101,9 +98,8 @@ class TodoListViewController: UITableViewController {
             let newItem = Item()
             newItem.title = textField.text!
             self.itemArray.append(newItem)
-            self.defaults.set(self.itemArray, forKey: "TodoListArray")
-            self.tableView.reloadData()
-            
+
+           self.saveItems()
         }
         
         alert.addTextField { (alertTextField) in
@@ -118,6 +114,21 @@ class TodoListViewController: UITableViewController {
         
     }
     
+    
+    //MARK: - Model Manipulation Methods
+    
+    func saveItems() {
+        let encoder = PropertyListEncoder()
+        
+        do {
+            let data = try encoder.encode(itemArray)
+            try data.write(to: dataFilePath!)
+        } catch {
+            print("MA FUCKING ERROR: \(error)")
+        }
+        
+        self.tableView.reloadData()
+    }
     
 }
 
