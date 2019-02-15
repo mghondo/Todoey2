@@ -18,19 +18,19 @@ class TodoListViewController: UITableViewController {
             loadItems()
         }
     }
-
+    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist"))
         
-    
         
-}
-
+        
+    }
+    
     
     //MARK: - Table View Datasource Methods.
     
@@ -47,30 +47,30 @@ class TodoListViewController: UITableViewController {
         cell.textLabel?.text = item.title
         
         cell.accessoryType = item.done ? .checkmark : .none
-//        cell.accessoryType = item.done == true ? .checkmark : .none
-//        if item.done == true {
-//            cell.accessoryType = .checkmark
-//        } else {
-//            cell.accessoryType = .none
-//        }
+        //        cell.accessoryType = item.done == true ? .checkmark : .none
+        //        if item.done == true {
+        //            cell.accessoryType = .checkmark
+        //        } else {
+        //            cell.accessoryType = .none
+        //        }
         
         return cell
     }
-
+    
     //MARK: - Tableview Delegate Methods.
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print(itemArray[indexPath.row])
-//        print(itemArray.count)
+        //        print(itemArray[indexPath.row])
+        //        print(itemArray.count)
         
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
         saveItems()
         
         tableView.deselectRow(at: indexPath, animated: true)
-
-
-
+        
+        
+        
         
     }
     
@@ -90,14 +90,14 @@ class TodoListViewController: UITableViewController {
             newItem.done = false
             newItem.parentCategory = self.selectedCategory
             self.itemArray.append(newItem)
-
-           self.saveItems()
+            
+            self.saveItems()
         }
         
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = "Create New Item"
             textField = alertTextField
-
+            
         }
         
         alert.addAction(action)
@@ -131,9 +131,9 @@ class TodoListViewController: UITableViewController {
             request.predicate = categoryPredicate
         }
         
-//        let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, predicate])
-//
-//        request.predicate = compoundPredicate
+        //        let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, predicate])
+        //
+        //        request.predicate = compoundPredicate
         
         do {
             itemArray = try context.fetch(request)
@@ -145,17 +145,8 @@ class TodoListViewController: UITableViewController {
         
     }
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchBar.text?.count == 0 {
-            loadItems()
-         
-            DispatchQueue.main.async {
-                searchBar.resignFirstResponder()
-            }
-        }
-    }
     
-
+    
     
 }
 
@@ -172,8 +163,24 @@ extension TodoListViewController: UISearchBarDelegate {
         
         
         loadItems(with: request, predicate: predicate)
-
+        
     }
     
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+    
+        if searchBar.text?.count == 0 {
+            
+            loadItems()
+            
+            DispatchQueue.main.async {
+
+                searchBar.resignFirstResponder()
+                
+            }
+        }
+        
+    }
+            
+            
 }
 
