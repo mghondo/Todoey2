@@ -1,15 +1,16 @@
 //
-//  Data.swift
+//  Category.swift
 //  Todoey2
 //
-//  Created by Morgan Hondros on 2/15/19.
+//  Created by Morgan Hondros on 2/18/19.
 //  Copyright © 2019 Morgan Hondros. All rights reserved.
 //
 
 import Foundation
 import RealmSwift
 
-class Data: Object {
+class Category: Object {
     @objc dynamic var name: String = ""
-    @objc dynamic var age: Int = 0
+    let items = List<Item>()
+    
 }
