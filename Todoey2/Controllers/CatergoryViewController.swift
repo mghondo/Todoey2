@@ -15,16 +15,12 @@ class CatergoryViewController: UITableViewController {
     let realm = try! Realm()
     
     
-    var categories = [Category]()
-    
-    
-    
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var categories : Results<Category>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        loadCategories()
+        loadCategories()
 
     }
 
@@ -32,14 +28,14 @@ class CatergoryViewController: UITableViewController {
     //MARK: - TABLEVIEW DATASOURCE METHODS
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories.count
+        return categories?.count ?? 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
         
-        cell.textLabel?.text = categories[indexPath.row].name
+        cell.textLabel?.text = categories?[indexPath.row].name ?? "No Fucking Categories Yet"
         
         return cell
         
@@ -56,7 +52,7 @@ class CatergoryViewController: UITableViewController {
         let destinationVC = segue.destination as! TodoListViewController
         
         if let indexPath = tableView.indexPathForSelectedRow {
-            destinationVC.selectedCategory = categories[indexPath.row]
+            destinationVC.selectedCategory = categories?[indexPath.row]
         }
     }
     
@@ -77,14 +73,7 @@ class CatergoryViewController: UITableViewController {
     }
     
     func loadCategories() {
-//        let request : NSFetchRequest<Category> = Category.fetchRequest()
-//        do {
-//        try categories = context.fetch(request)
-//        } catch {
-//            print("FUCKING SHIT THERE'S AN ERROR LOADING THE CATEGORIES: \(error)")
-//        }
-//
-//        tableView.reloadData()
+        categories = realm.objects(Category.self)
     }
     
     //MARK: - ADD NEW CATEGORIES
@@ -100,8 +89,6 @@ class CatergoryViewController: UITableViewController {
             
             let newCategory = Category()
             newCategory.name = textfield.text!
-            
-            self.categories.append(newCategory)
             
             self.save(category: newCategory)
             
