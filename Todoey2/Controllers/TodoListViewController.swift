@@ -49,14 +49,7 @@ class TodoListViewController: UITableViewController {
         } else {
             cell.textLabel?.text = "NO FUCKING ITEMS ADDED YET"
         }
-        
 
-        //        cell.accessoryType = item.done == true ? .checkmark : .none
-        //        if item.done == true {
-        //            cell.accessoryType = .checkmark
-        //        } else {
-        //            cell.accessoryType = .none
-        //        }
         
         return cell
     }
@@ -64,14 +57,19 @@ class TodoListViewController: UITableViewController {
     //MARK: - Tableview Delegate Methods.
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //        print(todoItems[indexPath.row])
-        //        print(todoItems.count)
+
+        if let item = todoItems?[indexPath.row] {
+            do {
+                try realm.write {
+//                    realm.delete(item)
+                    item.done = !item.done
+                }
+            } catch {
+                print("ERROR SAVING THE DONE STATUS: \(error)")
+            }
+        }
         
-//        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
-//
-//        saveItems()
-        
-        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.reloadData()
         
         
         
