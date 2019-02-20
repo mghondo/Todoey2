@@ -20,7 +20,7 @@ class CatergoryViewController: SwipeTableViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.rowHeight = 100.0
+//        tableView.rowHeight = 100.0
 
         loadCategories()
         
