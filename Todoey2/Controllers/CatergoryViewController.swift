@@ -14,22 +14,19 @@ class CatergoryViewController: SwipeTableViewController  {
     
     let realm = try! Realm()
     
-    
     var categories : Results<Category>?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        tableView.rowHeight = 100.0
-
+        //        tableView.rowHeight = 100.0
+        
         loadCategories()
         
         tableView.separatorStyle = .none
-        
-        
 
     }
-
+    
     
     //MARK: - TABLEVIEW DATASOURCE METHODS
     
@@ -37,20 +34,25 @@ class CatergoryViewController: SwipeTableViewController  {
         return categories?.count ?? 1
     }
     
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! SwipeTableViewCell
-//        cell.delegate = self
-//        return cell
-//    }
+    //    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    //        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! SwipeTableViewCell
+    //        cell.delegate = self
+    //        return cell
+    //    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
         if let category = categories?[indexPath.row] {
-            cell.textLabel?.text = category.name ?? "No Fucking Categories Yet"
+            cell.textLabel?.text = category.name ?? "No Categories Yet"
+            //            cell.textLabel?.textColor = ContrastColorOf(colour, returnFlat: true)
             
-            cell.backgroundColor = UIColor(hexString: category.colour ?? "1D9Bf6")
+            guard let categoryColour = UIColor(hexString: category.colour) else {fatalError("No Category Colour")}
+            
+            cell.backgroundColor = categoryColour
+            cell.textLabel?.textColor = ContrastColorOf(categoryColour, returnFlat: true)
+            
         }
         
         return cell
@@ -81,7 +83,7 @@ class CatergoryViewController: SwipeTableViewController  {
                 realm.add(category)
             }
         } catch {
-            print("OH SHIT WE TOTALLY HAVE AN ERROR SAVING THE CATEGORY: \(error)")
+            print("OH NO WE TOTALLY HAVE AN ERROR SAVING THE CATEGORY: \(error)")
         }
         
         tableView.reloadData()
@@ -103,13 +105,13 @@ class CatergoryViewController: SwipeTableViewController  {
             } catch {
                 print("Error deleting Category, \(error)")
             }
-
+            
         }
     }
     
     //MARK: - ADD NEW CATEGORIES
-
-
+    
+    
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
         var textfield = UITextField()
@@ -135,6 +137,6 @@ class CatergoryViewController: SwipeTableViewController  {
         
         present(alert, animated: true, completion: nil)
     }
-
+    
     
 }

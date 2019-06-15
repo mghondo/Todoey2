@@ -30,9 +30,11 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
     }
 
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        guard orientation == .right else { return nil }
+//        guard orientation == .right else { return nil }
+       guard orientation == .right else { return nil }
         
-        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+        let deleteAction = SwipeAction(style: .destructive , title: "Delete") { action, indexPath in
+
             
             print("DELETE CELL")
             self.updateModel(at: indexPath)
@@ -40,8 +42,19 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
 
         }
         
+//        let boobs = SwipeAction(style: .default , title: "Boobs") { action, indexPath in
+//
+//
+//            print("Boobs CELL")
+////            self.updateModel(at: indexPath)
+//
+//
+//        }
+
+        
         // customize the action appearance
         deleteAction.image = UIImage(named: "delete-icon")
+//        boobs.image = UIImage(named: "delete-icon")
         
         return [deleteAction]
     }
@@ -49,6 +62,7 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
     func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
         var options = SwipeOptions()
         options.expansionStyle = .destructive
+        options.transitionStyle = .border
         return options
     }
     

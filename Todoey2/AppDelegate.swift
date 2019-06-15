@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         do {
             _ = try Realm()
         } catch {
-            print("FUCKING SHIT, THERE WAS TOTALLY AN ERROR SAVING THE FUCKING REALM. Figure it out: \(error)")
+            print("THERE WAS TOTALLY AN ERROR SAVING REALM. Figure it out: \(error)")
         }
 
         
